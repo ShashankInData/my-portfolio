@@ -1,26 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds */
+  --bg-primary: #0a0a0f;
+  --bg-surface: #141420;
+  --bg-surface-hover: #1a1a2e;
+  --border-subtle: #1e1e2e;
+
+  /* Text */
+  --text-primary: #e8e8ed;
+  --text-secondary: #8888a0;
+  --text-muted: #555566;
+
+  /* Accents */
+  --accent-gold: #f0c040;
+  --accent-gold-dim: #c49a30;
+  --accent-blue: #4a7cff;
+  --accent-blue-dim: #3a5cc0;
+
+  /* Status */
+  --status-green: #2ecc71;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-surface-hover: var(--bg-surface-hover);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-gold-dim: var(--accent-gold-dim);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-blue-dim: var(--accent-blue-dim);
+  --color-status-green: var(--status-green);
+  --font-heading: 'Chakra Petch', sans-serif;
+  --font-body: 'Inter', sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Hero grid background */
+.hero-bg {
+  background-image:
+    linear-gradient(rgba(240, 192, 64, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 192, 64, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 }

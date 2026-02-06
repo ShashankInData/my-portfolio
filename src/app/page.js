@@ -1,138 +1,199 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 import {
-  Github, Linkedin, Mail, Phone,
-  Briefcase, FolderGit2, BarChart3, GraduationCap, Award, Sparkles
+  Github,
+  Linkedin,
+  Mail,
+  Phone,
+  CheckCircle,
+  Database,
+  BarChart3,
+  Brain,
+  TrendingUp,
+  FlaskConical,
+  Shield,
+  ClipboardCheck,
+  Menu,
+  X,
+  ArrowDown,
+  ExternalLink,
+  Download,
 } from "lucide-react";
 
-/* ========= CONTENT (edit me) ========= */
-const INFO = {
-  name: "Shashank Bodapati",
-  title: "Data / AI • Python • SQL • Power BI",
-  about:
-    "Graduate Data & AI professional (MSc). I build clean data pipelines, self-service dashboards, and ML/GenAI prototypes that improve decisions. Strong with data quality, documentation, and explaining insights to non-technical stakeholders.",
-  location: "UK • Open to relocate • Hybrid/Remote",
-  email: "bodapatishashank@gmail.com",
-  phone: "+44 7767970447",
-  github: "https://github.com/ShashankInData",
-  linkedin: "https://www.linkedin.com/in/shashankbodapati/",
-};
-
-const HIGHLIGHTS = [
-  "Data cleaning, validation & repeatable QA",
-  "Python & SQL automation for analysis",
-  "Power BI / Looker Studio dashboards",
-  "Hands-on ML/GenAI (RAG, WhisperX, agents)",
-  // --- pick any/all of the new ones below ---
-  "Time-series & anomaly detection for KPIs (Prophet/TFT)",
-  "Experimentation & uplift: A/B tests, cohort analysis",
-  "RAG/LLM pipelines with grounding, eval & guardrails",
-  "Data quality at scale: validation, reproducible notebooks, lineage",
-];
+/* ========= DATA ========= */
 
 const PROJECTS = [
   {
-    title: "ScribeFlow - Audio/Video Transcription",
-    summary:
-      "Comprehensive transcription app with OpenAI Whisper, speaker diarization, and AI-powered analysis. Supports multiple formats, YouTube URLs, and exports to SRT/VTT/DOCX/PDF.",
-    stack: ["Streamlit", "OpenAI Whisper", "PyAnnote", "FFmpeg"],
-    link: "https://github.com/ShashankInData/-Scribe_Flow",
+    slug: "obesity360",
+    title: "AI-Powered Obesity Treatment Planner",
+    description:
+      "Multi-agent AI system with 5 specialized agents processing 9,730+ patient records for personalized treatment plans in the Indian healthcare context.",
+    techStack: ["Python", "CrewAI", "LangChain", "ChromaDB", "Gradio", "GPT-4o"],
+    github: "https://github.com/ShashankInData/AI-Powered_INDIAN_Obesity_Treatment_Planner",
+    live: null,
   },
   {
+    slug: "scribeflow",
+    title: "ScribeFlow — Speech to Structured Text",
+    description:
+      "End-to-end audio/video transcription app with speaker diarization, AI summaries, and multi-format exports (SRT, VTT, DOCX, PDF).",
+    techStack: ["Python", "Streamlit", "OpenAI Whisper", "PyAnnote", "FFmpeg"],
+    github: "https://github.com/ShashankInData/-Scribe_Flow",
+    live: "https://scribe-flow-ebon.vercel.app",
+  },
+  {
+    slug: "rbac-chatbot",
     title: "RBAC Internal Chatbot",
-    summary:
-      "Role-based access control chatbot for internal company queries. Secure Q&A system with JWT authentication and role-specific data access for engineering, finance, HR, and marketing teams.",
-    stack: ["FastAPI", "LangChain", "ChromaDB", "JWT"],
-    link: "https://github.com/ShashankInData/rbac",
+    description:
+      "Secure Q&A system with role-based access control, JWT authentication, and vector search over internal documents for department-specific queries.",
+    techStack: ["FastAPI", "LangChain", "ChromaDB", "Groq", "JWT", "Streamlit"],
+    github: "https://github.com/ShashankInData/rbac",
+    live: null,
   },
   {
-    title: "Intelligent Document Summarizer",
-    summary:
-      "AI-powered document analysis and summarization tool that processes various document formats and generates intelligent summaries with key insights and action items.",
-    stack: ["Python", "LangChain", "Document Processing", "AI"],
-    link: "https://github.com/ShashankInData/Intelligent-Document-Summarizer",
+    slug: "ai-cctv",
+    title: "AI CCTV Retail Security",
+    description:
+      "Computer vision system for small retailers — detects theft and incidents in real-time, retrainable on new data for custom use cases.",
+    techStack: ["Python", "OpenCV", "YOLO", "TensorFlow"],
+    github: null,
+    live: null,
+    comingSoon: true,
   },
-  {
-    title: "AI Web Scraper & Formatter",
-    summary:
-      "Intelligent web scraping tool with Selenium and Streamlit UI. Extracts data, applies AI-powered formatting, and exports clean JSON/Markdown with schema validation.",
-    stack: ["Python", "Selenium", "Streamlit", "LangChain"],
-    link: "https://github.com/ShashankInData/ai_web-scrapper",
-  },
-  {
-    title: "Crypto Price Forecasting with LSTM",
-    summary:
-      "Deep learning model using LSTM neural networks to predict cryptocurrency price movements. Features time-series analysis and real-time prediction capabilities.",
-    stack: ["Python", "LSTM", "TensorFlow", "Time Series"],
-    link: "https://github.com/ShashankInData/Crypto-Price-Forecasting-using-LSTM",
-  },
-  {
-    title: "Finance Agent - Multi-Agent Analysis",
-    summary:
-      "Multi-agent financial analysis system using CrewAI and LLMs. Automates equity research, generates investment briefs, and provides source-linked financial insights.",
-    stack: ["Python", "CrewAI", "LLMs", "yfinance"],
-    link: "https://github.com/ShashankInData/finance_agent",
-  },
+];
+
+const HIGHLIGHTS = [
+  { text: "Data cleaning, validation & repeatable QA", icon: ClipboardCheck },
+  { text: "Python & SQL automation for analysis", icon: Database },
+  { text: "Power BI / Looker Studio dashboards", icon: BarChart3 },
+  { text: "Hands-on ML/GenAI (RAG, WhisperX, agents)", icon: Brain },
+  { text: "Time-series & anomaly detection for KPIs (Prophet/TFT)", icon: TrendingUp },
+  { text: "Experimentation & uplift: A/B tests, cohort analysis", icon: FlaskConical },
+  { text: "RAG/LLM pipelines with grounding, eval & guardrails", icon: Shield },
+  { text: "Data quality at scale: validation, reproducible notebooks, lineage", icon: CheckCircle },
 ];
 
 const EXPERIENCE = [
   {
-    role: "Data with AI – Research (Freelance)",
-    org: "Independent",
-    period: "Dec 2024 – Present",
+    role: "Freelance Data & AI Engineer",
+    org: "ShashankInData (Self-employed)",
+    period: "February 2025 – Present",
+    location: "United Kingdom",
     bullets: [
-      "Prototype LLM/RAG evaluators and guardrails for safer answers; compare embedding models and retrieval strategies.",
-      "Design small ETL jobs to prep text/metrics for downstream analysis; build quick dashboards to monitor model drift.",
-      "Advise on data quality and documentation for reproducible experiments.",
+      "Prototype LLM/RAG evaluators and guardrails for safer answers; compare embedding models and retrieval strategies",
+      "Design ETL jobs to prep text/metrics for downstream analysis; build dashboards to monitor model drift",
+      "Advise on data quality and documentation for reproducible experiments",
     ],
   },
   {
-    role: "Data Analyst Intern",
-    org: "AlphaAnalytics Ltd, Chelmsford, UK",
-    period: "Mar 2024 – Jun 2024",
+    role: "Junior Data Analyst",
+    org: "AlphaAnalytics Ltd",
+    period: "March 2024 – February 2025",
+    location: "London, United Kingdom",
     bullets: [
-      "Built Python/SQL pipelines to ingest/transform multi-source travel data; cut manual prep ~60%.",
-      "Rolled out self-service KPI dashboards (Power BI/Looker Studio) used by marketing for uplift.",
-      "Implemented GDPR-aware validation & documentation; improved downstream engagement & trust.",
-      // travel-focused additions:
-      "Developed a travel **recommendation prototype** combining weather, seasonal holidays, flight prices, and macro indicators to prioritize destinations.",
-      "Created a **competitive pricing view** comparing UK holiday packages vs leading sites; surfaced anomalies and promos for weekly action.",
-      "Published a **comprehensive travel insights dashboard** (geo trends, seasonality, conversion funnels) to align product & marketing.",
+      "Built Python/SQL ETL pipelines to ingest and transform multi-source travel data, cutting manual data preparation time by 60%",
+      "Developed travel recommendation prototype combining weather patterns, seasonal holidays, flight prices, and macro indicators",
+      "Created competitive pricing view comparing UK holiday packages, surfacing pricing anomalies and promotions for weekly action",
+      "Published travel insights dashboard (geo trends, seasonality, conversion funnels) aligning product and marketing teams",
+      "Rolled out self-service KPI dashboards in Power BI/Looker Studio used by marketing for conversion uplift analysis",
+      "Implemented GDPR-aware data validation and documentation",
+    ],
+  },
+  {
+    role: "Shift Manager",
+    org: "Shell",
+    period: "March 2023 – February 2024",
+    location: "Southampton",
+    bullets: [
+      "Managed daily operations and team of 4-6 staff across high-volume retail shifts",
+      "Maintained inventory accuracy and cash handling compliance",
+      "Part-time role during MSc studies",
     ],
   },
 ];
 
 const SKILLS = {
   "Data & Analytics": [
-    "Python (pandas, NumPy)", "SQL (CTEs, window fns)", "Statistics", "EDA",
-    "Time-series (Prophet/TFT)", "Anomaly detection"
+    "Python (pandas, NumPy)",
+    "SQL (CTEs, window fns)",
+    "Statistics",
+    "EDA",
+    "Time-series (Prophet/TFT)",
+    "Anomaly detection",
   ],
-  "BI & Viz": ["Power BI (measures, basics of DAX)", "Looker Studio", "KPI design", "Excel (advanced)"],
+  "BI & Viz": [
+    "Power BI",
+    "Looker Studio",
+    "KPI design",
+    "Excel (advanced)",
+  ],
   "ML & GenAI": [
-    "LLMs (prompting & eval)", "RAG", "Embeddings", "Vector DBs (ChromaDB/FAISS)",
-    "LangChain", "CrewAI / LangGraph (basics)"
+    "LLMs",
+    "RAG",
+    "Embeddings",
+    "Vector DBs (ChromaDB/FAISS)",
+    "LangChain",
+    "CrewAI/LangGraph",
   ],
   "Platforms/Tools": [
-    "FastAPI", "Streamlit", "Git/GitHub", "Docker", "Vercel/Railway",
-    "Great Expectations (data validation)"
+    "FastAPI",
+    "Streamlit",
+    "Git/GitHub",
+    "Docker",
+    "Vercel",
   ],
-  "Cloud (learning)": ["AWS (S3, Lambda basics)", "GCP BigQuery basics"],
 };
 
 const EDUCATION = [
-  { qual: "MSc Applied AI & Data Science", inst: "Solent University (UK)", when: "2023 – 2024" },
-  { qual: "BTech Mechanical Engineering", inst: "CMR Engineering College (IN)", when: "2017 – 2021" },
+  {
+    qual: "MSc Applied AI & Data Science",
+    inst: "Solent University",
+    when: "2023 – 2024",
+  },
+  {
+    qual: "BTech Mechanical Engineering",
+    inst: "CMR Engineering College",
+    when: "2017 – 2021",
+  },
 ];
 
 const CERTS = [
   "AWS Cloud Practitioner Essentials",
   "Prompt Engineering for AI/NLP Apps",
-  "Advanced Excel for Data Analysis",
-  "Complete Data Analyst Bootcamp – From Basics to Advanced",
 ];
 
-/* ========= HOOKS ========= */
+/* ========= ANIMATION VARIANTS ========= */
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.05 },
+  },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
+
+/* ========= SCROLL SPY HOOK ========= */
+
 function useScrollSpy(sectionIds) {
   const [activeId, setActiveId] = useState(sectionIds[0] ?? null);
   useEffect(() => {
@@ -152,429 +213,548 @@ function useScrollSpy(sectionIds) {
   return activeId;
 }
 
-/* ========= UI HELPERS ========= */
-const SocialIcon = ({ href, children, label, className = "" }) => (
-  <a
-    aria-label={label}
-    href={href}
-    target={href?.startsWith("http") ? "_blank" : undefined}
-    rel="noopener noreferrer"
-    className={`group relative inline-flex h-11 w-11 items-center justify-center rounded-full border
-               border-neutral-800 bg-neutral-950/60 backdrop-blur transition-all duration-300
-               hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] focus:outline-none
-               focus:ring-2 focus:ring-red-500/50 hover:scale-110 ${className}`}
-  >
-    <span className="absolute inset-0 rounded-full bg-gradient-to-br from-red-600/20 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
-    <span className="relative z-10 group-hover:text-red-400 transition-colors duration-200">
-      {children}
-    </span>
-  </a>
-);
+/* ========= COMPONENTS ========= */
 
-function Highlights() {
-  return (
-    <Section title="What I Bring" icon={<BarChart3 className="h-4 w-4 text-red-400" />}>
-      <ul className="grid gap-3 sm:grid-cols-2">
-        {HIGHLIGHTS.map((h) => (
-          <li key={h} className="flex items-start gap-3">
-            <Dot />
-            <span className="text-neutral-300">{h}</span>
-          </li>
-        ))}
-      </ul>
-    </Section>
-  );
-}
+function Navbar({ activeId }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-function ProjectCard({ title, summary, stack, link }) {
+  const links = [
+    { id: "projects", label: "Projects" },
+    { id: "experience", label: "Experience" },
+    { id: "about", label: "About" },
+    { id: "contact", label: "Contact" },
+  ];
+
   return (
-    <article className="group relative rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5 shadow-sm transition-all duration-300
-                        hover:border-neutral-600 hover:shadow-lg hover:shadow-red-500/10 hover:-translate-y-1 transform">
-      {/* Subtle inner light effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-      <div className="relative z-10">
-        <h3 className="font-semibold group-hover:text-red-400 transition-colors duration-200">{title}</h3>
-        <p className="mt-2 text-sm text-neutral-300 group-hover:text-neutral-200 transition-colors duration-200">{summary}</p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {stack.map((t) => (
-            <span key={t} className="rounded-full bg-neutral-800 px-2 py-0.5 text-xs text-neutral-300 group-hover:bg-neutral-700 transition-colors duration-200">
-              {t}
-            </span>
-          ))}
-        </div>
-        {link && (
-          <div className="mt-4">
+    <header className="sticky top-0 z-50 border-b border-border-subtle bg-bg-primary/80 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
+        <a
+          href="#"
+          className="font-heading text-lg font-bold tracking-tight text-text-primary"
+        >
+          SB
+        </a>
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1">
+          {links.map((l) => (
             <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-neutral-400 hover:text-red-400 transition-colors duration-200 flex items-center gap-1 group-hover:gap-2"
+              key={l.id}
+              href={`#${l.id}`}
+              className={`relative px-3 py-1.5 font-heading text-sm transition-colors ${
+                activeId === l.id
+                  ? "text-accent-gold"
+                  : "text-text-secondary hover:text-text-primary"
+              }`}
             >
-              View repo <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
+              {l.label}
+              {activeId === l.id && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-gold"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
             </a>
-          </div>
-        )}
+          ))}
+        </nav>
+
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden text-text-secondary hover:text-text-primary"
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
-    </article>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <motion.nav
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="md:hidden border-t border-border-subtle bg-bg-primary/95 backdrop-blur-md px-4 py-4"
+        >
+          {links.map((l) => (
+            <a
+              key={l.id}
+              href={`#${l.id}`}
+              onClick={() => setMobileOpen(false)}
+              className={`block py-2 font-heading text-sm ${
+                activeId === l.id
+                  ? "text-accent-gold"
+                  : "text-text-secondary"
+              }`}
+            >
+              {l.label}
+            </a>
+          ))}
+        </motion.nav>
+      )}
+    </header>
   );
 }
 
-function ExpTimeline({ items }) {
-  return (
-    <ol className="relative border-l border-neutral-800 pl-6">
-      {items.map((e, idx) => (
-        <li key={idx} className="mb-8 ml-2">
-          <span className="absolute -left-2 mt-1 inline-block h-3 w-3 rounded-full bg-red-500" />
-          <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="font-semibold">{e.role}</h3>
-              <span className="text-xs text-neutral-400">{e.period}</span>
-            </div>
-            <p className="mt-1 text-sm text-neutral-300">{e.org}</p>
-            <ul className="mt-3 space-y-2">
-              {e.bullets.map((b, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-neutral-300">
-                  <Dot />
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </li>
-      ))}
-    </ol>
-  );
-}
+function Hero() {
+  const name = "SHASHANK BODAPATI";
+  const letters = name.split("");
 
-function SkillGroup({ group, items }) {
   return (
-    <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
-      <p className="font-medium text-red-400">{group}</p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {items.map((s) => (
-          <span key={s} className="rounded-full bg-neutral-800 px-3 py-1 text-xs">
-            {s}
-          </span>
-        ))}
+    <section className="relative hero-bg">
+      <div className="mx-auto max-w-5xl px-4 py-32 md:py-48 text-center">
+        {/* Name — staggered letter reveal */}
+        <h1 className="font-heading text-5xl md:text-7xl font-bold text-text-primary">
+          {letters.map((letter, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.03, duration: 0.4, ease: "easeOut" }}
+              className="inline-block"
+              style={{ whiteSpace: letter === " " ? "pre" : undefined }}
+            >
+              {letter === " " ? "\u00A0" : letter}
+            </motion.span>
+          ))}
+        </h1>
+
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="mt-4 font-heading text-xl text-accent-gold"
+        >
+          Data Analyst & AI Engineer
+        </motion.p>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+          className="mx-auto mt-6 max-w-2xl text-base text-text-secondary leading-relaxed"
+        >
+          Data & AI professional (MSc Applied AI & Data Science). I build clean
+          data pipelines, self-service dashboards, and ML/GenAI prototypes that
+          improve decisions. Strong with data quality, documentation, and
+          explaining insights to non-technical stakeholders.
+        </motion.p>
+
+        {/* Location */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.0, duration: 0.5 }}
+          className="mt-3 text-sm text-text-muted"
+        >
+          UK &middot; Hybrid/Remote
+        </motion.p>
+
+        {/* Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.5 }}
+          className="mt-8 flex flex-wrap items-center justify-center gap-4"
+        >
+          <a
+            href="#projects"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent-gold px-6 py-2.5 font-heading text-sm font-semibold uppercase tracking-wider text-bg-primary transition-colors hover:bg-accent-gold-dim"
+          >
+            See Projects <ArrowDown className="h-4 w-4" />
+          </a>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 rounded-lg border border-accent-gold px-6 py-2.5 font-heading text-sm font-semibold uppercase tracking-wider text-accent-gold transition-colors hover:bg-accent-gold/10"
+          >
+            Get in Touch
+          </a>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }
 
-function Contact() {
+function WhatIBring() {
   return (
-    <section id="contact" className="border-t border-neutral-900">
-      <div className="mx-auto max-w-6xl px-4 py-12">
-        <div className="mb-6 flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-800 bg-neutral-900">
-            <Mail className="h-4 w-4 text-red-400" />
-          </span>
-          <h2 className="text-2xl font-semibold tracking-tight">Contact</h2>
-        </div>
+    <section className="scroll-mt-20">
+      <div className="mx-auto max-w-5xl px-4 py-20">
+        <motion.h2
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="font-heading text-3xl md:text-4xl font-semibold text-accent-gold"
+        >
+          What I Bring
+        </motion.h2>
 
-        <p className="mt-3 text-neutral-300">
-          The fastest way to reach me is email. I'm happy to discuss roles, projects, or collaborations.
-        </p>
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {HIGHLIGHTS.map((h) => {
+            const Icon = h.icon;
+            return (
+              <motion.div
+                key={h.text}
+                variants={staggerItem}
+                className="rounded-lg border border-border-subtle bg-bg-surface p-4 transition-colors hover:border-accent-gold/50"
+              >
+                <div className="flex items-center gap-3">
+                  <Icon className="h-5 w-5 shrink-0 text-accent-gold" />
+                  <span className="text-sm font-medium text-text-primary">
+                    {h.text}
+                  </span>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <ContactCard label="Email" value={INFO.email} href={`mailto:${INFO.email}`} icon={<Mail className="h-5 w-5" />} />
-          <ContactCard label="Phone" value={INFO.phone} href={`tel:${INFO.phone.replace(/\s/g, "")}`} icon={<Phone className="h-5 w-5" />} />
-          <ContactCard label="LinkedIn" value="linkedin.com/in/shashankbodapati" href={INFO.linkedin} icon={<Linkedin className="h-5 w-5" />} />
-          <ContactCard label="GitHub" value="github.com/ShashankInData" href={INFO.github} icon={<Github className="h-5 w-5" />} />
+function Projects() {
+  return (
+    <section id="projects" className="scroll-mt-20">
+      <div className="mx-auto max-w-5xl px-4 py-20">
+        <motion.h2
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="font-heading text-3xl md:text-4xl font-semibold text-accent-gold"
+        >
+          Projects
+        </motion.h2>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="mt-10 grid gap-6 md:grid-cols-2"
+        >
+          {PROJECTS.map((p) => (
+            <motion.article
+              key={p.slug}
+              variants={staggerItem}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="rounded-xl border border-border-subtle bg-bg-surface p-6 transition-all duration-300 hover:border-accent-gold/60 hover:shadow-[0_0_20px_rgba(240,192,64,0.1)]"
+            >
+              <h3 className="font-heading text-xl font-semibold text-text-primary">
+                {p.title}
+              </h3>
+              <p className="mt-2 text-sm text-text-secondary">{p.description}</p>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                {p.techStack.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full bg-bg-surface-hover px-2.5 py-0.5 text-xs font-medium uppercase tracking-wider text-accent-blue"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-5">
+                {p.comingSoon ? (
+                  <span className="text-sm text-text-muted italic">
+                    Coming Soon
+                  </span>
+                ) : (
+                  <Link
+                    href={`/projects/${p.slug}`}
+                    className="inline-flex items-center gap-1 text-sm font-medium text-accent-gold transition-colors hover:text-accent-gold-dim"
+                  >
+                    View Case Study
+                    <span className="transition-transform group-hover:translate-x-1">
+                      &rarr;
+                    </span>
+                  </Link>
+                )}
+              </div>
+            </motion.article>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  return (
+    <section id="experience" className="scroll-mt-20">
+      <div className="mx-auto max-w-5xl px-4 py-20">
+        <motion.h2
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="font-heading text-3xl md:text-4xl font-semibold text-accent-gold"
+        >
+          Experience
+        </motion.h2>
+
+        <div className="relative mt-10 ml-4 border-l-2 border-border-subtle pl-8">
+          {EXPERIENCE.map((e, idx) => (
+            <motion.div
+              key={idx}
+              variants={sectionVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              className="relative mb-12 last:mb-0"
+            >
+              {/* Timeline dot */}
+              <span
+                className={`absolute -left-[calc(2rem+5px)] top-1.5 h-3 w-3 rounded-full border-2 border-accent-gold ${
+                  idx === 0
+                    ? "bg-accent-gold shadow-[0_0_8px_rgba(240,192,64,0.6)]"
+                    : "bg-bg-primary"
+                }`}
+              />
+
+              <h3 className="font-heading text-lg font-semibold text-text-primary">
+                {e.role}
+              </h3>
+              <p className="mt-0.5 text-sm text-text-secondary">
+                {e.org} &middot; {e.period}
+              </p>
+              <p className="text-sm text-text-muted">{e.location}</p>
+
+              <ul className="mt-3 space-y-2">
+                {e.bullets.map((b, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-2 text-sm text-text-secondary"
+                  >
+                    <span className="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-accent-gold/60" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function ContactCard({ label, value, href, icon }) {
+function About() {
   return (
-    <a
-      href={href}
-      target={href?.startsWith("http") ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5 transition
-                 hover:border-red-500/60 hover:shadow-[0_0_0_1px_rgba(239,68,68,0.35)]"
-    >
-      <p className="flex items-center gap-2 text-xs uppercase tracking-wide text-neutral-400">
-        {icon}
-        {label}
-      </p>
-      <p className="mt-1 font-medium">{value}</p>
-    </a>
+    <section id="about" className="scroll-mt-20 bg-bg-surface">
+      <div className="mx-auto max-w-5xl px-4 py-20">
+        <motion.h2
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="font-heading text-3xl md:text-4xl font-semibold text-accent-gold"
+        >
+          About
+        </motion.h2>
+
+        <motion.div
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="mt-10 grid gap-12 md:grid-cols-2"
+        >
+          {/* Left — Story */}
+          <div className="space-y-4 text-text-secondary leading-relaxed">
+            <p>
+              I started in mechanical engineering, then pivoted to data and AI
+              during my MSc at Solent University. That engineering background
+              gives me a different lens — I think about systems, processes, and
+              where things break before they break.
+            </p>
+            <p>
+              At AlphaAnalytics, I worked on travel analytics — building
+              pipelines, dashboards, and recommendation systems that marketing
+              teams actually used. Now I build GenAI prototypes and data tools
+              independently, focusing on RAG systems, multi-agent architectures,
+              and making AI outputs trustworthy.
+            </p>
+            <p>
+              I care about clean data, clear documentation, and explaining
+              technical work to people who aren&apos;t technical.
+            </p>
+          </div>
+
+          {/* Right — Skills, Education, Certs */}
+          <div className="space-y-6">
+            {Object.entries(SKILLS).map(([group, items]) => (
+              <div key={group}>
+                <p className="text-sm font-medium text-accent-gold">{group}</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {items.map((s) => (
+                    <span
+                      key={s}
+                      className="rounded-full bg-bg-surface-hover px-3 py-1 text-xs text-text-secondary"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Education */}
+            <div>
+              <p className="text-sm font-medium text-accent-gold">Education</p>
+              <ul className="mt-2 space-y-1">
+                {EDUCATION.map((ed) => (
+                  <li key={ed.qual} className="text-sm text-text-secondary">
+                    {ed.qual} — {ed.inst} ({ed.when})
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Certifications */}
+            <div>
+              <p className="text-sm font-medium text-accent-gold">
+                Certifications
+              </p>
+              <ul className="mt-2 space-y-1">
+                {CERTS.map((c) => (
+                  <li key={c} className="text-sm text-text-secondary">
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Download CV button */}
+            <a
+              href="/Shashank_Bodapati_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-accent-gold px-5 py-2 font-heading text-sm font-semibold uppercase tracking-wider text-accent-gold transition-colors hover:bg-accent-gold/10"
+            >
+              <Download className="h-4 w-4" /> Download CV
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  const contactLinks = [
+    {
+      icon: Mail,
+      label: "bodapatishashank@gmail.com",
+      href: "mailto:bodapatishashank@gmail.com",
+    },
+    {
+      icon: Phone,
+      label: "+44 7767970447",
+      href: "tel:+447767970447",
+    },
+    {
+      icon: Linkedin,
+      label: "linkedin.com/in/shashankbodapati",
+      href: "https://www.linkedin.com/in/shashankbodapati/",
+    },
+    {
+      icon: Github,
+      label: "github.com/ShashankInData",
+      href: "https://github.com/ShashankInData",
+    },
+  ];
+
+  return (
+    <section id="contact" className="scroll-mt-20">
+      <div className="mx-auto max-w-5xl px-4 py-20">
+        <motion.h2
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="font-heading text-3xl md:text-4xl font-semibold text-accent-gold text-center"
+        >
+          Get in Touch
+        </motion.h2>
+
+        <motion.p
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-4 text-center text-text-secondary"
+        >
+          The fastest way to reach me is email. Happy to discuss roles, projects,
+          or collaborations.
+        </motion.p>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-8"
+        >
+          {contactLinks.map((c) => {
+            const Icon = c.icon;
+            return (
+              <motion.a
+                key={c.label}
+                variants={staggerItem}
+                href={c.href}
+                target={c.href.startsWith("http") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-text-secondary transition-colors hover:text-accent-gold"
+              >
+                <Icon className="h-5 w-5" />
+                <span className="text-sm">{c.label}</span>
+              </motion.a>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
 function Footer() {
   return (
-    <footer className="border-t border-neutral-900">
-      <div className="mx-auto max-w-6xl px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-neutral-400">
-        <span>© {new Date().getFullYear()} {INFO.name}. Built with Next.js & Tailwind.</span>
-        <div className="flex items-center gap-3">
-          <SocialIcon href={INFO.github} label="GitHub"><Github className="h-6 w-6" /></SocialIcon>
-          <SocialIcon href={INFO.linkedin} label="LinkedIn"><Linkedin className="h-6 w-6" /></SocialIcon>
-          <SocialIcon href={`mailto:${INFO.email}`} label="Email"><Mail className="h-6 w-6" /></SocialIcon>
-          <SocialIcon href={`tel:${INFO.phone.replace(/\s/g, "")}`} label="Phone"><Phone className="h-6 w-6" /></SocialIcon>
-        </div>
-      </div>
+    <footer className="border-t border-border-subtle py-8 text-center">
+      <p className="text-sm text-text-muted">
+        &copy; 2026 Shashank Bodapati &middot; Built with Next.js & Tailwind
+      </p>
     </footer>
   );
 }
 
-const Section = ({ id, title, icon, children }) => (
-  <section id={id} className="scroll-mt-28">
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <div className="mb-6 flex items-center gap-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-800 bg-neutral-900">
-          {icon}
-        </span>
-        <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
-      </div>
-      {children}
-    </div>
-  </section>
-);
-
-const Dot = () => <span className="mt-1 inline-block h-2 w-2 rounded-full bg-red-500" />;
-
-function Hero({ active, btnBase, btnActive, btnIdle }) {
-  const [displayedName, setDisplayedName] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
-  const [particles, setParticles] = useState([]);
-  
-  useEffect(() => {
-    const name = INFO.name;
-    let i = 0;
-    const typeWriter = () => {
-      if (i < name.length) {
-        setDisplayedName(name.slice(0, i + 1));
-        i++;
-        setTimeout(typeWriter, 100);
-      } else {
-        setIsTyping(false);
-      }
-    };
-    typeWriter();
-  }, []);
-
-  useEffect(() => {
-    // Generate particles only on client side
-    const generateParticles = () => {
-      const newParticles = [...Array(15)].map((_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        top: Math.random() * 100,
-        animationDelay: Math.random() * 3,
-        animationDuration: 2 + Math.random() * 3
-      }));
-      setParticles(newParticles);
-    };
-    
-    generateParticles();
-  }, []);
-
-  return (
-    <section className="relative overflow-hidden border-b border-neutral-900">
-      {/* Enhanced background effects */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_-250px,rgba(239,68,68,0.25),transparent_60%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_400px_at_20%_80%,rgba(59,130,246,0.1),transparent_50%)]" />
-      
-      {/* Floating particles - only render on client */}
-      {particles.length > 0 && (
-        <div className="absolute inset-0 overflow-hidden">
-          {particles.map((particle) => (
-            <div
-              key={particle.id}
-              className="absolute w-1 h-1 bg-red-400/30 rounded-full animate-pulse"
-              style={{
-                left: `${particle.left}%`,
-                top: `${particle.top}%`,
-                animationDelay: `${particle.animationDelay}s`,
-                animationDuration: `${particle.animationDuration}s`
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      <div className="relative mx-auto max-w-6xl px-4 py-16">
-        <span className="inline-flex items-center gap-2 rounded-full border border-red-600/50 bg-red-600/10 px-3 py-1 text-xs tracking-wide text-red-400 animate-pulse">
-          <Sparkles className="h-3.5 w-3.5" /> Available for Data/AI roles
-        </span>
-        
-        <h1 className="mt-4 text-4xl sm:text-6xl font-bold tracking-tight">
-          <span className="bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent">
-            {displayedName}
-            {isTyping && <span className="animate-pulse">|</span>}
-          </span>
-        </h1>
-        
-        <h2 className="mt-2 text-xl sm:text-2xl text-neutral-300 font-medium bg-gradient-to-r from-neutral-300 to-neutral-500 bg-clip-text text-transparent">
-          {INFO.title}
-        </h2>
-        
-        <p className="mt-4 max-w-2xl text-neutral-300 leading-relaxed">{INFO.about}</p>
-        <div className="mt-3 text-sm text-neutral-400 flex items-center gap-2">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          {INFO.location}
-        </div>
-
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <a
-            href="#projects"
-            className={`${btnBase} ${active === "projects" ? btnActive : btnIdle} transform hover:scale-105 transition-all duration-200`}
-          >
-            See Projects
-          </a>
-          <a
-            href="#experience"
-            className={`${btnBase} ${active === "experience" ? btnActive : btnIdle} transform hover:scale-105 transition-all duration-200`}
-          >
-            Experience
-          </a>
-          <a
-            href="#skills"
-            className={`${btnBase} ${active === "skills" ? btnActive : btnIdle} transform hover:scale-105 transition-all duration-200`}
-          >
-            Skills
-          </a>
-
-          {/* Enhanced social icons */}
-          <div className="ml-2 flex items-center gap-2">
-            <SocialIcon href={INFO.github} label="GitHub" className="transform hover:scale-110 transition-all duration-200">
-              <Github className="h-6 w-6" />
-            </SocialIcon>
-            <SocialIcon href={INFO.linkedin} label="LinkedIn" className="transform hover:scale-110 transition-all duration-200">
-              <Linkedin className="h-6 w-6" />
-            </SocialIcon>
-            <SocialIcon href={`mailto:${INFO.email}`} label="Email" className="transform hover:scale-110 transition-all duration-200">
-              <Mail className="h-6 w-6" />
-            </SocialIcon>
-            <SocialIcon href={`tel:${INFO.phone.replace(/\s/g, "")}`} label="Phone" className="transform hover:scale-110 transition-all duration-200">
-              <Phone className="h-6 w-6" />
-            </SocialIcon>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ========= PAGE ========= */
+
 export default function Page() {
-  const sectionIds = ["projects", "experience", "skills", "education", "contact"];
-  const active = useScrollSpy(sectionIds);
-
-  const btnBase =
-    "rounded-xl px-5 py-2.5 font-medium transition border";
-  const btnActive =
-    "bg-red-600/20 border-red-500/50 text-red-200";
-  const btnIdle =
-    "border-neutral-700 hover:border-neutral-500";
-
-  const navLink = (id) =>
-    `px-3 py-1 rounded-lg transition ${
-      active === id ? "bg-red-600/15 text-red-300" : "hover:text-red-400"
-    }`;
+  const sectionIds = ["projects", "experience", "about", "contact"];
+  const activeId = useScrollSpy(sectionIds);
 
   return (
-    <main className="relative bg-neutral-950 text-neutral-100 overflow-hidden">
-      {/* Global scroll-based lighting effect */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(800px_400px_at_50%_50%,rgba(239,68,68,0.15),transparent_70%)] opacity-60" />
-        <div className="absolute inset-0 bg-[radial-gradient(600px_300px_at_30%_70%,rgba(239,68,68,0.1),transparent_60%)] opacity-40" />
-        <div className="absolute inset-0 bg-[radial-gradient(500px_250px_at_70%_30%,rgba(239,68,68,0.08),transparent_50%)] opacity-30" />
-      </div>
-      
-      <div className="relative z-10">
-        <Header navLink={navLink} />
-        <Hero
-          active={active}
-          btnBase={btnBase}
-          btnActive={btnActive}
-          btnIdle={btnIdle}
-        />
-        <Highlights />
-
-        <section id="projects" className="relative overflow-hidden border-b border-neutral-900 scroll-mt-28">
-          {/* Red glow background */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_-250px,rgba(239,68,68,0.22),transparent_60%)]" />
-          <div className="relative mx-auto max-w-6xl px-4 py-12">
-            <div className="mb-6 flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-800 bg-neutral-900">
-                <FolderGit2 className="h-4 w-4 text-red-400" />
-              </span>
-              <h2 className="text-2xl font-semibold tracking-tight">Projects</h2>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {PROJECTS.map((p) => (
-                <ProjectCard key={p.title} {...p} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <Section id="experience" title="Experience" icon={<Briefcase className="h-4 w-4 text-red-400" />}>
-          <ExpTimeline items={EXPERIENCE} />
-        </Section>
-
-        <Section id="skills" title="Skills" icon={<BarChart3 className="h-4 w-4 text-red-400" />}>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {Object.entries(SKILLS).map(([group, items]) => (
-              <SkillGroup key={group} group={group} items={items} />
-            ))}
-          </div>
-        </Section>
-
-        <Section id="education" title="Education & Certifications" icon={<GraduationCap className="h-4 w-4 text-red-400" />}>
-          <ul className="space-y-3">
-            {EDUCATION.map((ed) => (
-              <li key={ed.qual} className="flex items-start gap-3">
-                <Dot />
-                <div>
-                  <p className="font-medium">{ed.qual}</p>
-                  <p className="text-sm text-neutral-400">{ed.inst} · {ed.when}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6">
-            <p className="text-sm font-medium text-red-400 flex items-center gap-2"><Award className="h-4 w-4" /> Certifications</p>
-            <ul className="mt-2 flex flex-wrap gap-2">
-              {CERTS.map((c) => (
-                <li key={c} className="rounded-full border border-neutral-800 bg-neutral-900 px-3 py-1 text-xs">{c}</li>
-              ))}
-            </ul>
-          </div>
-        </Section>
-
-        <Contact />
-        <Footer />
-      </div>
+    <main className="relative">
+      <Navbar activeId={activeId} />
+      <Hero />
+      <WhatIBring />
+      <Projects />
+      <Experience />
+      <About />
+      <Contact />
+      <Footer />
     </main>
   );
 }
-
-/* ========= SECTIONS ========= */
-function Header({ navLink }) {
-  return (
-    <header className="sticky top-0 z-20 border-b border-neutral-900 bg-neutral-950/70 backdrop-blur">
-      <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-center">
-        <nav className="flex items-center gap-2 text-sm">
-          <a href="#projects" className={navLink("projects")}>Projects</a>
-          <a href="#experience" className={navLink("experience")}>Experience</a>
-          <a href="#skills" className={navLink("skills")}>Skills</a>
-          <a href="#education" className={navLink("education")}>Education</a>
-          <a href="#contact" className={navLink("contact")}>Contact</a>
-        </nav>
-        <div className="absolute right-4 flex items-center gap-3">
-          <SocialIcon href={INFO.github} label="GitHub"><Github className="h-6 w-6" /></SocialIcon>
-          <SocialIcon href={INFO.linkedin} label="LinkedIn"><Linkedin className="h-6 w-6" /></SocialIcon>
-          <SocialIcon href={`mailto:${INFO.email}`} label="Email"><Mail className="h-6 w-6" /></SocialIcon>
-          <SocialIcon href={`tel:${INFO.phone.replace(/\s/g, "")}`} label="Phone"><Phone className="h-6 w-6" /></SocialIcon>
-        </div>
-      </div>
-    </header>
-  );
-}
-
