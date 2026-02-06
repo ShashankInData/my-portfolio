@@ -19,7 +19,6 @@ import {
   Menu,
   X,
   ArrowDown,
-  ExternalLink,
   Download,
 } from "lucide-react";
 
@@ -42,7 +41,7 @@ const PROJECTS = [
       "End-to-end audio/video transcription app with speaker diarization, AI summaries, and multi-format exports (SRT, VTT, DOCX, PDF).",
     techStack: ["Python", "Streamlit", "OpenAI Whisper", "PyAnnote", "FFmpeg"],
     github: "https://github.com/ShashankInData/-Scribe_Flow",
-    live: "https://scribe-flow-ebon.vercel.app",
+    live: null,
   },
   {
     slug: "rbac-chatbot",
@@ -100,17 +99,6 @@ const EXPERIENCE = [
       "Published travel insights dashboard (geo trends, seasonality, conversion funnels) aligning product and marketing teams",
       "Rolled out self-service KPI dashboards in Power BI/Looker Studio used by marketing for conversion uplift analysis",
       "Implemented GDPR-aware data validation and documentation",
-    ],
-  },
-  {
-    role: "Shift Manager",
-    org: "Shell",
-    period: "March 2023 – February 2024",
-    location: "Southampton",
-    bullets: [
-      "Managed daily operations and team of 4-6 staff across high-volume retail shifts",
-      "Maintained inventory accuracy and cash handling compliance",
-      "Part-time role during MSc studies",
     ],
   },
 ];

@@ -84,7 +84,7 @@ const CASE_STUDIES = {
       "FFmpeg",
     ],
     github: "https://github.com/ShashankInData/-Scribe_Flow",
-    live: "https://scribe-flow-ebon.vercel.app",
+    live: null,
     problem: [
       "Transcription tools either give you raw text with no speaker labels, or they\u2019re expensive SaaS products. If you\u2019re a researcher, journalist, or content creator processing interviews or meetings, you need timestamped transcripts with speaker identification, exportable in standard formats (SRT for subtitles, DOCX for documents). Most open-source options handle one piece of this but not the full pipeline.",
       "ScribeFlow handles the complete workflow: upload audio/video (or paste a YouTube URL), get a timestamped transcript with speaker labels, rename speakers, export in your preferred format, and generate an AI summary \u2014 all in one interface.",
@@ -179,7 +179,6 @@ const CASE_STUDIES = {
       "API documentation auto-generated at /docs endpoint",
     ],
     whatIdDo: [
-      "Build from scratch rather than forking a starter repo \u2014 the fork label on GitHub undersells the amount of custom work I added",
       "Add conversation memory so follow-up questions work naturally",
       "Implement proper logging and audit trail for compliance",
     ],
