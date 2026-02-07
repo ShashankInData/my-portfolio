@@ -189,7 +189,7 @@ const CASE_STUDIES = {
     description:
       "Computer vision system for theft detection in small retail stores",
     techStack: ["Python", "OpenCV", "YOLO", "TensorFlow"],
-    github: null,
+    github: "https://github.com/ShashankInData/AI-CCTV-Retail-Security",
     live: null,
     comingSoon: true,
     problem: [

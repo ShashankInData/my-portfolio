@@ -57,7 +57,7 @@ const PROJECTS = [
     description:
       "Computer vision system for small retailers — detects theft and incidents in real-time, retrainable on new data for custom use cases.",
     techStack: ["Python", "OpenCV", "YOLO", "TensorFlow"],
-    github: null,
+    github: "https://github.com/ShashankInData/AI-CCTV-Retail-Security",
     live: null,
     comingSoon: true,
   },
