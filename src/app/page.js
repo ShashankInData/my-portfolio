@@ -19,7 +19,6 @@ import {
   Menu,
   X,
   ArrowDown,
-  Download,
 } from "lucide-react";
 
 /* ========= DATA ========= */
@@ -151,6 +150,8 @@ const EDUCATION = [
 const CERTS = [
   "AWS Cloud Practitioner Essentials",
   "Prompt Engineering for AI/NLP Apps",
+  "Advanced Excel for Data Analysis",
+  "Complete Data Analyst Bootcamp – From Basics to Advanced",
 ];
 
 /* ========= ANIMATION VARIANTS ========= */
@@ -196,7 +197,20 @@ function useScrollSpy(sectionIds) {
       obs.observe(el);
       observers.push(obs);
     });
-    return () => observers.forEach((o) => o.disconnect());
+
+    // Activate last section when scrolled to bottom
+    const lastId = sectionIds[sectionIds.length - 1];
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 50) {
+        setActiveId(lastId);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      observers.forEach((o) => o.disconnect());
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [sectionIds.join(",")]);
   return activeId;
 }
@@ -289,7 +303,7 @@ function Hero() {
   const letters = name.split("");
 
   return (
-    <section className="relative hero-bg">
+    <section className="relative">
       <div className="mx-auto max-w-5xl px-4 py-32 md:py-48 text-center">
         {/* Name — staggered letter reveal */}
         <h1 className="font-heading text-5xl md:text-7xl font-bold text-text-primary">
@@ -624,15 +638,6 @@ function About() {
               </ul>
             </div>
 
-            {/* Download CV button */}
-            <a
-              href="/Shashank_Bodapati_CV.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-accent-gold px-5 py-2 font-heading text-sm font-semibold uppercase tracking-wider text-accent-gold transition-colors hover:bg-accent-gold/10"
-            >
-              <Download className="h-4 w-4" /> Download CV
-            </a>
           </div>
         </motion.div>
       </div>
